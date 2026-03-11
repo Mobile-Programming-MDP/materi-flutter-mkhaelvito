@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:aplikasi_pilem/models/movie.dart';
+import 'package:aplikasi_pilem/services/api_service.dart';
 import 'package:aplikasi_pilem/screens/detail_screen.dart';
-import 'package:aplikasi_pilem/services/api_services.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

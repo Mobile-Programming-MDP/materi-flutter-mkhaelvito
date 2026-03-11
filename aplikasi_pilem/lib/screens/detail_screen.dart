@@ -9,7 +9,7 @@ class DetailScreen extends StatefulWidget {
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
-} 
+}
 
 class _DetailScreenState extends State<DetailScreen> {
   bool isFavorite = false;
