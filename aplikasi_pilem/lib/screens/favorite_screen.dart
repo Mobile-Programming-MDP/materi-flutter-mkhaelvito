@@ -12,23 +12,18 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-
   List<Movie> _favorites = [];
 
   void _loadFavorites() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final Set<String> keys = prefs.getKeys();
-    List<Movie> favorites = [];
-    for (String key in keys) {
-      if (key.startsWith('movie_')) {
-        final String? movieJson = prefs.getString(key);
-        if (movieJson != null) {
-          Movie movie = Movie.fromJson(json.decode(movieJson));
-          movie.isFavorite = true;
-          favorites.add(movie);
-        }
-      }
-    }
+    // Gunakan key 'favorites' yang sama dengan detail_screen.dart
+    List<String> favList = prefs.getStringList('favorites') ?? [];
+    List<Movie> favorites = favList.map((item) {
+      Movie movie = Movie.fromJson(jsonDecode(item));
+      movie.isFavorite = true;
+      return movie;
+    }).toList();
+
     setState(() {
       _favorites = favorites;
     });
@@ -48,42 +43,40 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Favorite Movies')),
-      body: _favorites.isEmpty
-          ? const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Icon(Icons.favorite_border, size: 80, color: Colors.grey),
-                  // SizedBox(height: 16),
-                  Text('Belum ada film favorit',
-                      style: TextStyle(fontSize: 16, color: Colors.grey)),
-                ],
-              ),
-            )
-          : ListView.builder(
-              itemCount: _favorites.length,
-              itemBuilder: (context, index) {
-                final Movie movie = _favorites[index];
-                return ListTile(
-                  leading: Image.network(
-                    'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                    width: 50,
-                    height: 75,
-                    fit: BoxFit.cover,
-                  ),
-                  title: Text(movie.title),
-                  subtitle: Text(movie.releaseDate),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DetailScreen(movie: movie),
-                    ),
-                  ).then((_) => _loadFavorites()),
-                );
-              },
+    // Hapus Scaffold di sini, langsung return body-nya saja
+    return _favorites.isEmpty
+        ? const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Belum ada film favorit',
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+              ],
             ),
-    );
+          )
+        : ListView.builder(
+            itemCount: _favorites.length,
+            itemBuilder: (context, index) {
+              final Movie movie = _favorites[index];
+              return ListTile(
+                leading: Image.network(
+                  'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                  width: 50,
+                  height: 75,
+                  fit: BoxFit.cover,
+                ),
+                title: Text(movie.title),
+                subtitle: Text(movie.releaseDate),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailScreen(movie: movie),
+                  ),
+                ).then((_) => _loadFavorites()),
+              );
+            },
+          );
   }
 }
