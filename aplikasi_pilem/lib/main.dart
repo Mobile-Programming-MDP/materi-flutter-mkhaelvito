@@ -10,7 +10,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,11 +33,15 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+
   final List<Widget> _screens = [
     const HomeScreen(),
     const SearchScreen(),
     const FavoriteScreen(),
   ];
+
+  // Judul AppBar untuk masing-masing screen
+  final List<String> _titles = ['Pilem', 'Search', 'Favorite'];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -49,6 +52,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(_titles[_selectedIndex]),
+      ),
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
