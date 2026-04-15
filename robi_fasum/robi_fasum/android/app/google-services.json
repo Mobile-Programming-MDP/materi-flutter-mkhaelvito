@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "234359654969",
+    "project_id": "mikhaelvito-ell",
+    "storage_bucket": "mikhaelvito-ell.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234359654969:android:dd5bdfbd888bd18dbd1be8",
+        "android_client_info": {
+          "package_name": "com.example.robi_fasum"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj7I4wNzaFDTdQ_6D6nBkrRWypVcV8XPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

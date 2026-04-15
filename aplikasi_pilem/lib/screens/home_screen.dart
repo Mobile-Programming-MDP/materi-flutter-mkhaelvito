@@ -42,19 +42,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Pilem"),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildMoviesList("All Movies", _allMovies),
-            _buildMoviesList("Trending Movies", _trendingMovies),
-            _buildMoviesList("Popular Movies", _popularMovies),
-          ],
-        ),
+    // Hapus Scaffold di sini, langsung return body-nya saja
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildMoviesList("All Movies", _allMovies),
+          _buildMoviesList("Trending Movies", _trendingMovies),
+          _buildMoviesList("Popular Movies", _popularMovies),
+        ],
       ),
     );
   }
@@ -63,7 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Menampilkan Title Kategori Movies
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
@@ -74,7 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        //Menapilkan thumnail dan judul movies
         SizedBox(
           height: 200,
           child: ListView.builder(
