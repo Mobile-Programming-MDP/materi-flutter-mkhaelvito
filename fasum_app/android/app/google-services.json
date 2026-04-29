@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "451306829653",
+    "project_id": "cepu-7935f",
+    "storage_bucket": "cepu-7935f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:451306829653:android:9aaacb2a1307bc6dd421dc",
+        "android_client_info": {
+          "package_name": "com.example.fasum_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhTb_VlYvhvbjQRc3F8NnOhPoNJu-z2ew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
