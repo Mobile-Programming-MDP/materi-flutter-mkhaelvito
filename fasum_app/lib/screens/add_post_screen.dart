@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:fasum_app/models/post.dart';
 import 'package:fasum_app/services/post_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,7 +30,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
     ];
   }
   String? _category;
-   bool _isSubmitting = false;
+  bool _isSubmitting = false;
+  bool _isGenerating = false;
   bool _isGettingLocation = false;
 
   //1.Fungsi pick, compress and convert Image
@@ -188,6 +189,47 @@ class _AddPostScreenState extends State<AddPostScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Posting gagal disimpan : $e")),
       );  
+    }
+  }
+
+   Future<void> _generateDescriptionsWithAI() async {
+    if(_base64Image == null) return;
+    setState(() => _isGenerating = true);
+    try {
+      const apiKey = 'AIzaSyAyAmbFLws1kMLjp_n-Ydk3NnupONBDDa4';
+      const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=$apiKey";
+      final body = jsonEncode({
+        "contents": [
+          {
+            "parts": [
+              {
+                "inlineData": {"mimeType": "image/jpeg", "data": _base64Image},
+              },
+              {
+                "text":
+                  "Berdasarkan foto ini, identifikasi satu kategori utama kerusakan fasilitas umum"
+                  "dari daftar berikut: Jalan Rusak, Lampu Jalan Mati, Lawan Arah, Merokok di Jalan, Tidak Pakai Helm dan Lainnya"
+                  "Pilih kategori yang paling dominan atau paling mendesak untuk dilaporkan"
+                  "Buat deskripsi singkat untuk laporan perbaikan, dan tambahan permohonan perbaikan."
+                  "Fokus pada kerusakan yang terlihat dan hindari spekulasi. \n\n"
+                  "Format input output yang diinginkan: \n"
+                  "Kategori: [satu kategori yang dipilih]\n"
+                  "Deskripsi: [deskripsi singkat]",
+              },
+            ],
+          },
+        ],
+      });
+      final headers = {'Content-Type' : 'application/json'};
+      final response = await http.post(Uri.parse(url), headers: headers, body: body);
+      if(response.statusCode == 200) {
+      } else {
+        debugPrint('Request failed: ${response.body}');
+      }
+    } catch(e) {
+      debugPrint('Failed to generate AI description: $e');
+    } finally {
+      if (mounted) setState(() => _isGenerating = false);
     }
   }
 
